@@ -1,0 +1,36 @@
+html, body { height: 100%; width: 100%; margin: 0; }
+
+#keywords-pool {
+	background-image: url(images/background.svg);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.pool-wrapper {
+	background-color: rgba(0,0,0,0.5);
+	z-index: 1;
+	height: 50%;
+}
+
+.fill { 
+    height: 100%;
+}
+
+a.keyword {
+	color: white;
+}
+
+a.keyword:hover {
+	color: black;
+	text-decoration: none;
+}
+
+a.clicked {
+	color: black;
+	text-decoration: none;
+}
+
+a.disabled {
+	color: #747474;
+	pointer-events: none;
+}
