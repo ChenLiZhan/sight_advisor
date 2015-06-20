@@ -1,6 +1,10 @@
 var map;
 var markers = [];
 
+$('.pull-down').each(function() {
+    $(this).css('margin-top', $(this).parent().height() - $(this).height())
+});
+
 function initialize() {
     var mapProp = {
         center: new google.maps.LatLng(23.69781, 120.96051499999999),
@@ -78,9 +82,5 @@ $(document).ready(function() {
                 addressMarker(sightsSet);
             }
         });
-    });
-
-    $('.pull-down').each(function() {
-        $(this).css('margin-top', $(this).parent().height() - $(this).height())
     });
 });
