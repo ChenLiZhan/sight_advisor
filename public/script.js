@@ -1,6 +1,7 @@
 var map;
 var markers = [];
 var keywordsSet = [];
+var markers_info = [];
 
 function initialize() {
     var mapProp = {
@@ -10,34 +11,39 @@ function initialize() {
     };
 
     map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-
-    // var myCenter = new google.maps.LatLng(51.508742, -0.120850);
-    // var marker = new google.maps.Marker({
-    //     position: myCenter,
-    // });
-
-    // marker.setMap(map);
 }
 
-function addressMarker(addresses) {
-    for (add in addresses) {
+function addressMarker(sights, addresses) {
+    for (var i = 0; i < sights.length; ++i) {
         var geocoder = new google.maps.Geocoder();
         geocoder.geocode({
-            'address': addresses[add]
+            'address': addresses[i]
         }, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
                 map.setCenter(results[0].geometry.location);
+                var infoWindow = new google.maps.InfoWindow(); // 設定氣泡框 (message bubble)，顯示地標相關的資訊
+                var html = '<h3>' + results[0].formatted_address + '</h3>';
+                markers_info.push(html);
+
                 var marker = new google.maps.Marker({
                     map: map,
                     position: results[0].geometry.location,
                     animation: google.maps.Animation.BOUNCE
                 });
+                bindInfoWindow(marker, map, infoWindow, html); // 把對話框內容綁到地圖標記上頭
                 markers.push(marker);
             } else {
                 alert('Geocode was not successful for the following reason: ' + status);
             }
         });
+    }
+}
 
+function findSightByAddress(address) {
+    for (index in keywords) {
+        if (keywords[index]['address'] == address) {
+            return keywords[index]['sight'];
+        }
     }
 }
 
@@ -99,6 +105,15 @@ function changeKeywordsStyle() {
     // });
 }
 
+// 設定地圖標記 (marker) 點開後的對話氣泡框 (message bubble)
+function bindInfoWindow(marker, map, infoWindow, html) {
+    // 除了 click 事件，也可以用 mouseover 等事件觸發氣泡框顯示
+    google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+    });
+}
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function() {
@@ -113,27 +128,27 @@ $(document).ready(function() {
             keywordsSet.push(keyword);
         }
 
-        console.log(keywordsSet);
         // changeKeywordsStyle();
 
         $.get("keyword2.txt", function(data) {
             var sightsSet = [];
+            var addressSet = [];
             clearOverlays();
             data = $.parseJSON(data);
 
-            console.log(data);
 
             for (index in data) {
                 for (keyw in keywordsSet) {
                     if (data[index]['keywords'].indexOf(keywordsSet[keyw]) > -1) {
                         sightsSet.push(data[index]['sight']);
+                        addressSet.push(data[index]['address']);
                     }
                 }
             }
 
             if (sightsSet.length > 0) {
                 $.unique(sightsSet);
-                addressMarker(sightsSet);
+                addressMarker(sightsSet, addressSet);
             }
         });
     });
