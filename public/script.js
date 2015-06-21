@@ -103,9 +103,13 @@ function changeKeywordsStyle() {
 // 設定地圖標記 (marker) 點開後的對話氣泡框 (message bubble)
 function bindInfoWindow(marker, map, infoWindow, html) {
     // 除了 click 事件，也可以用 mouseover 等事件觸發氣泡框顯示
-    google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'mouseover', function() {
         infoWindow.setContent(html);
         infoWindow.open(map, marker);
+    });
+
+    google.maps.event.addListener(marker, 'mouseout', function() {
+        infoWindow.close()
     });
 }
 
