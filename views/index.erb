@@ -8,9 +8,9 @@
 </head>
 <body>
 <div class="container-fluid fill">
-    <div class="row fill">
-        <div id="keywords-pool" class="fill col-md-6 col-lg-6 col-sm-6">
-            <div class="pool-wrapper pull-down">
+    <div class="wrapper pull-down">
+        <div class="row fill">
+            <div id="keyword-pool" class="col-md-6 col-lg-6 col-sm-6">
                 <% @result.each do |r| %>
                     <% r['keywords'].each do |k| %>
                         <!-- <label class="label label-default"><input type="checkbox" value="<%= k %>" class="keyword"><%= k %></input></label> -->
@@ -18,10 +18,9 @@
                     <% end %>
                 <% end %>
             </div>
+            <div id="googleMap" class="col-md-6 col-lg-6 col-sm-6"></div>
         </div>
-        
-        <div id="googleMap" class="fill col-md-6 col-lg-6 col-sm-6"></div>
-    </div>    
+    </div>
 </div>
 
 <!-- Latest compiled and minified JavaScript -->

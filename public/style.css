@@ -1,15 +1,30 @@
-html, body { height: 100%; width: 100%; margin: 0; }
+html, body { 
+	height: 100%;
+	width: 100%; 
+	margin: 0; 
+}
 
-#keywords-pool {
+body {
 	background-image: url(images/background.svg);
 	background-repeat: no-repeat;
 	background-size: cover;
+	height: 1250px;
 }
 
-.pool-wrapper {
-	background-color: rgba(0,0,0,0.5);
+#googleMap {
+	height: 80%;
+}
+
+.pull-down {
+	margin-top: 45%;
+}
+
+#keywords-pool {
+}
+
+.wrapper {
 	z-index: 1;
-	height: 50%;
+	height: 100%;
 }
 
 .fill { 
@@ -31,6 +46,6 @@ a.clicked {
 }
 
 a.disabled {
-	color: #747474;
+	color: #C1C1C1;
 	pointer-events: none;
 }

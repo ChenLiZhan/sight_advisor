@@ -1,10 +1,10 @@
 var map;
 var markers = [];
+var keywordsSet = [];
 
-$('.pull-down').each(function() {
-    $(this).css('margin-top', $(this).parent().height() - $(this).height())
-});
-
+// $('.pull-down').each(function() {
+//     $(this).css('margin-top', '45%');
+// });
 function initialize() {
     var mapProp = {
         center: new google.maps.LatLng(23.69781, 120.96051499999999),
@@ -32,7 +32,8 @@ function addressMarker(addresses) {
                 map.setCenter(results[0].geometry.location);
                 var marker = new google.maps.Marker({
                     map: map,
-                    position: results[0].geometry.location
+                    position: results[0].geometry.location,
+                    animation: google.maps.Animation.BOUNCE
                 });
                 markers.push(marker);
             } else {
@@ -50,19 +51,72 @@ function clearOverlays() {
     markers.length = 0;
 }
 
+function changeKeywordsStyle() {
+
+    // TODO: 選了一個將沒有的 keyword disabled 掉
+    // $.get("keyword.txt", function(data) {
+    //     for (index in data) {
+    //         var found = false;
+    //         for (i in keywordsSet) {
+    //             if (data[index]['keywords'].indexOf(keywordsSet[i]) > -1) {
+    //                 found = true;
+    //                 break;
+    //             }
+    //         }
+    //     }
+    // });
+    // $.get("keyword.txt", function(data) {
+    //     data = $.parseJSON(data);
+
+    //     for (index in data) {
+    //         a = $.map(keywordsSet, function(value) {
+    //             console.log(value);
+    //             if (data[index]['keywords'].indexOf(value) > -1) {
+    //                 return true;
+    //             } else {
+    //                 return false;
+    //             }
+    //         });
+    //         if (a.indexOf(false) > -1) {
+    //             $("a.keyword").each(function() {
+    //                 if (data[index]['keywords'].indexOf($(this).data().keyword) > -1) {
+    //                     $(this).toggleClass('disabled');
+    //                 }
+    //                 // console.log('a.key: ' + $(this).data().keyword);
+    //                 // console.log(data[index]['keywords'][key]);
+    //             });
+    //         }
+    //     }
+    // for (index in data) {
+    //     if (data[index]['keywords'].indexOf(value) > -1) {
+    //         $("a.keyword").each(function() {
+    //             if (data[index]['keywords'].indexOf($(this).data().keyword) == -1) {
+    //                 $(this).toggleClass('disabled');
+    //             }
+    //             // console.log('a.key: ' + $(this).data().keyword);
+    //             // console.log(data[index]['keywords'][key]);
+    //         });
+    //     }
+    // }
+
+    // });
+}
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
 $(document).ready(function() {
-    var keywordsSet = [];
     $('.keyword').click(function() {
         var keyword = $(this).data().keyword;
         $(this).toggleClass('clicked');
+
+
         if (keywordsSet.indexOf(keyword) > -1) {
             keywordsSet.splice(keywordsSet.indexOf(keyword), 1)
         } else {
             keywordsSet.push(keyword);
         }
+
+        changeKeywordsStyle();
 
         $.get("keyword.txt", function(data) {
             var sightsSet = [];
