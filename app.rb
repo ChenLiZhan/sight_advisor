@@ -16,7 +16,7 @@ class SightAdvisorApp < Sinatra::Base
   
   get '/api/v1/keywords' do
     content_type :json, 'charset' => 'utf-8'
-    s = File.read(File.join('public', 'keyword.txt'))
+    s = File.read(File.join('public', 'keyword2.txt'))
     s
   end
 end

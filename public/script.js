@@ -113,17 +113,20 @@ $(document).ready(function() {
             keywordsSet.push(keyword);
         }
 
-        changeKeywordsStyle();
+        console.log(keywordsSet);
+        // changeKeywordsStyle();
 
-        $.get("keyword.txt", function(data) {
+        $.get("keyword2.txt", function(data) {
             var sightsSet = [];
             clearOverlays();
             data = $.parseJSON(data);
 
+            console.log(data);
+
             for (index in data) {
                 for (keyw in keywordsSet) {
                     if (data[index]['keywords'].indexOf(keywordsSet[keyw]) > -1) {
-                        sightsSet.push(data[index]['sight'])
+                        sightsSet.push(data[index]['sight']);
                     }
                 }
             }

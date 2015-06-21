@@ -14,7 +14,7 @@
                 <% @result.each do |r| %>
                     <% r['keywords'].each do |k| %>
                         <!-- <label class="label label-default"><input type="checkbox" value="<%= k %>" class="keyword"><%= k %></input></label> -->
-                        <a data-keyword="<%= k %>" class="btn keyword" role="button"><%= k %></a>
+                        <a data-keyword="<%= k %>" class="btn btn-sm keyword" role="button"><%= k %></a>
                     <% end %>
                 <% end %>
             </div>
