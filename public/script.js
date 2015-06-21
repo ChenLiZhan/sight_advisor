@@ -2,13 +2,10 @@ var map;
 var markers = [];
 var keywordsSet = [];
 
-// $('.pull-down').each(function() {
-//     $(this).css('margin-top', '45%');
-// });
 function initialize() {
     var mapProp = {
         center: new google.maps.LatLng(23.69781, 120.96051499999999),
-        zoom: 5,
+        zoom: 7,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
 
