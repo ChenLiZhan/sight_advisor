@@ -15,36 +15,31 @@ function initialize() {
 
 function addressMarker(sights, addresses) {
     for (var i = 0; i < sights.length; ++i) {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({
-            'address': addresses[i]
-        }, function(results, status) {
-            if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                var infoWindow = new google.maps.InfoWindow(); // 設定氣泡框 (message bubble)，顯示地標相關的資訊
-                var html = '<h3>' + results[0].formatted_address + '</h3>';
-                markers_info.push(html);
-
-                var marker = new google.maps.Marker({
-                    map: map,
-                    position: results[0].geometry.location,
-                    animation: google.maps.Animation.BOUNCE
-                });
-                bindInfoWindow(marker, map, infoWindow, html); // 把對話框內容綁到地圖標記上頭
-                markers.push(marker);
-            } else {
-                alert('Geocode was not successful for the following reason: ' + status);
-            }
-        });
+        geocoding(sights[i], addresses[i])
     }
 }
 
-function findSightByAddress(address) {
-    for (index in keywords) {
-        if (keywords[index]['address'] == address) {
-            return keywords[index]['sight'];
+function geocoding(sight, address) {
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({
+        'address': address
+    }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            var infoWindow = new google.maps.InfoWindow(); // 設定氣泡框 (message bubble)，顯示地標相關的資訊
+            markers_info.push(results[0].formatted_address);
+            var html = "<h3>" + sight + "</h3>" + "<p> 地址: " + address + "</p>";
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location,
+                animation: google.maps.Animation.BOUNCE
+            });
+            bindInfoWindow(marker, map, infoWindow, html); // 把對話框內容綁到地圖標記上頭
+            markers.push(marker);
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
         }
-    }
+    });
 }
 
 function clearOverlays() {
@@ -148,6 +143,7 @@ $(document).ready(function() {
 
             if (sightsSet.length > 0) {
                 $.unique(sightsSet);
+                $.unique(addressSet);
                 addressMarker(sightsSet, addressSet);
             }
         });
