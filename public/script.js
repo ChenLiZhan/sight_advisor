@@ -56,15 +56,17 @@ function changeKeywordsStyle() {
     $.get("keyword2.txt", function(data) {
         data = $.parseJSON(data);
         for (index in data) {
-            var able = true;
+            var disabled = false;
             key_ary = data[index]['keywords']
             for (k in keywordsSet) {
-                if (key_ary.indexOf(keywordsSet[k] == -1)) {
-                    able = false;
+                if (key_ary.indexOf(keywordsSet[k]) == -1) {
+                    disabled = true;
                     break;
                 }
             }
-            if (!able) {
+            console.log(key_ary);
+            console.log(disabled);
+            if (disabled) {
                 for (k in data[index]) {
                     $("a").find("[data-keyword='" + data[index][k] + "']").addClass('disabled');
                 }
