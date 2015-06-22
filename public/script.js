@@ -146,7 +146,7 @@ $(document).ready(function() {
             keywordsSet.push(keyword);
         }
 
-        // changeKeywordsStyle();
+        changeKeywordsStyle();
 
         $.get("keyword2.txt", function(data) {
             var sightsSet = [];
