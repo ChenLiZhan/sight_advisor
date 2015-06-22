@@ -52,6 +52,25 @@ function clearOverlays() {
 function changeKeywordsStyle() {
 
     // TODO: 選了一個將沒有的 keyword disabled 掉
+
+    $.get("keyword2.txt", function(data) {
+        data = $.parseJSON(data);
+        for (index in data) {
+            var able = true;
+            key_ary = data[index]['keywords']
+            for (k in keywordsSet) {
+                if (key_ary.indexOf(keywordsSet[k] == -1)) {
+                    able = false;
+                    break;
+                }
+            }
+            if (!able) {
+                for (k in data[index]) {
+                    $("a").find("[data-keyword='" + data[index][k] + "']").addClass('disabled');
+                }
+            }
+        }
+    });
     // $.get("keyword.txt", function(data) {
     //     for (index in data) {
     //         var found = false;
