@@ -12,10 +12,7 @@
         <div class="row fill">
             <div id="keyword-pool" class="col-md-6 col-lg-6 col-sm-6">
                 <% @result.each do |r| %>
-                    <% r['keywords'].each do |k| %>
-                        <!-- <label class="label label-default"><input type="checkbox" value="<%= k %>" class="keyword"><%= k %></input></label> -->
-                        <a data-keyword="<%= k %>" class="btn btn-sm keyword" role="button"><%= k %></a>
-                    <% end %>
+                        <a data-keyword="<%= r %>" class="btn btn-sm keyword" role="button"><%= r %></a>
                 <% end %>
             </div>
             <div id="googleMap" class="col-md-6 col-lg-6 col-sm-6"></div>
