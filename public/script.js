@@ -52,74 +52,49 @@ function clearOverlays() {
 function changeKeywordsStyle() {
 
     // TODO: 選了一個將沒有的 keyword disabled 掉
+    if (keywordsSet.length > 0) {
+        $.get("keyword2.txt", function(data) {
+            console.log(keywordsSet);
+            data = $.parseJSON(data);
+            final_key = []
+            for (index in data) {
+                var disabled = false;
+                for (key in data[index]['keywords']) {
+                    for (k in keywordsSet) {
+                        if (data[index]['keywords'].indexOf(keywordsSet[k]) == -1) {
+                            disabled = true;
+                            break;
+                        }
+                    }
+                    if (disabled) break;
+                }
 
-    $.get("keyword2.txt", function(data) {
-        data = $.parseJSON(data);
-        for (index in data) {
-            var disabled = false;
-            key_ary = data[index]['keywords']
-            for (k in keywordsSet) {
-                if (key_ary.indexOf(keywordsSet[k]) == -1) {
-                    disabled = true;
-                    break;
+
+                if (!disabled) {
+                    for (k in data[index]['keywords']) {
+                        final_key.push(data[index]['keywords'][k]);
+                        // $("a[data-keyword='" + data[index]['keywords'][k] + "']").addClass('disabled');
+                    }
                 }
             }
-            console.log(key_ary);
-            console.log(disabled);
-            if (disabled) {
-                for (k in data[index]) {
-                    $("a").find("[data-keyword='" + data[index][k] + "']").addClass('disabled');
-                }
+
+            var final_key_uniq = $.unique(final_key);
+            $("a").each(function() {
+                $(this).addClass('disabled');
+            });
+            for (i in final_key_uniq) {
+                $("a[data-keyword='" + final_key_uniq[i] + "']").removeClass('disabled');
             }
-        }
-    });
-    // $.get("keyword.txt", function(data) {
-    //     for (index in data) {
-    //         var found = false;
-    //         for (i in keywordsSet) {
-    //             if (data[index]['keywords'].indexOf(keywordsSet[i]) > -1) {
-    //                 found = true;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    // });
-    // $.get("keyword.txt", function(data) {
-    //     data = $.parseJSON(data);
 
-    //     for (index in data) {
-    //         a = $.map(keywordsSet, function(value) {
-    //             console.log(value);
-    //             if (data[index]['keywords'].indexOf(value) > -1) {
-    //                 return true;
-    //             } else {
-    //                 return false;
-    //             }
-    //         });
-    //         if (a.indexOf(false) > -1) {
-    //             $("a.keyword").each(function() {
-    //                 if (data[index]['keywords'].indexOf($(this).data().keyword) > -1) {
-    //                     $(this).toggleClass('disabled');
-    //                 }
-    //                 // console.log('a.key: ' + $(this).data().keyword);
-    //                 // console.log(data[index]['keywords'][key]);
-    //             });
-    //         }
-    //     }
-    // for (index in data) {
-    //     if (data[index]['keywords'].indexOf(value) > -1) {
-    //         $("a.keyword").each(function() {
-    //             if (data[index]['keywords'].indexOf($(this).data().keyword) == -1) {
-    //                 $(this).toggleClass('disabled');
-    //             }
-    //             // console.log('a.key: ' + $(this).data().keyword);
-    //             // console.log(data[index]['keywords'][key]);
-    //         });
-    //     }
-    // }
+        });
+    } else {
+        $("a").each(function() {
+            $(this).removeClass('disabled');
+        });
 
-    // });
+    }
 }
+
 
 // 設定地圖標記 (marker) 點開後的對話氣泡框 (message bubble)
 function bindInfoWindow(marker, map, infoWindow, html) {
@@ -132,6 +107,19 @@ function bindInfoWindow(marker, map, infoWindow, html) {
     google.maps.event.addListener(marker, 'mouseout', function() {
         infoWindow.close()
     });
+}
+
+function arrayContainsAnotherArray(arry1, arry2) {
+    var contained = false;
+    for (var i = 0; i < arry2.length; i++) {
+        if (arry1.indexOf(arry2[i]) > -1) {
+            contained = true;
+        } else {
+            contained = false;
+            break;
+        }
+    }
+    return contained;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -158,11 +146,9 @@ $(document).ready(function() {
 
 
             for (index in data) {
-                for (keyw in keywordsSet) {
-                    if (data[index]['keywords'].indexOf(keywordsSet[keyw]) > -1) {
-                        sightsSet.push(data[index]['sight']);
-                        addressSet.push(data[index]['address']);
-                    }
+                if (arrayContainsAnotherArray(data[index]['keywords'], keywordsSet)) {
+                    sightsSet.push(data[index]['sight']);
+                    addressSet.push(data[index]['address']);
                 }
             }
 
