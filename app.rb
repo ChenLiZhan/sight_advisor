@@ -7,8 +7,8 @@ class SightAdvisorApp < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
 
-  # BASE_URL = 'http://localhost:4567'
-  BASE_URL = 'http://sightadvisor.herokuapp.com'
+  BASE_URL = 'http://localhost:4567'
+  # BASE_URL = 'http://sightadvisor.herokuapp.com'
   get '/' do
     @result = HTTParty.get("#{BASE_URL}/api/v1/keywords")
     erb :index

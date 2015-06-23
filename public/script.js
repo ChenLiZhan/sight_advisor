@@ -28,7 +28,7 @@ function geocoding(sight, address) {
             map.setCenter(results[0].geometry.location);
             var infoWindow = new google.maps.InfoWindow(); // 設定氣泡框 (message bubble)，顯示地標相關的資訊
             markers_info.push(results[0].formatted_address);
-            var html = "<h3>" + sight + "</h3>" + "<p> 地址: " + address + "</p>";
+            var html = "<h3>" + sight + "</h3>" + "<p> 地址: " + address + "</p>" + "連結: <a href=\"http://www.tripadvisor.com.tw/Attraction_Review-g304163-d554785-Reviews-Taitung_Forest_Park-Taitung.html\">http://www.tripadvisor.com.tw/Attraction_Review-g304163-d554785-Reviews-Taitung_Forest_Park-Taitung.html</a>";
             var marker = new google.maps.Marker({
                 map: map,
                 position: results[0].geometry.location,
